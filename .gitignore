@@ -1,0 +1,7 @@
+.bundle
+.DS_Store
+db/*.sqlite3
+config/database.yml
+log/*.log
+nbproject
+tmp/**/*
