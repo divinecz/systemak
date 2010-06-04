@@ -1,0 +1,15 @@
+<% title "Log" %>
+
+<p>
+  <strong>Device:</strong>
+  <%= @log.device %>
+</p>
+<p>
+  <strong>Address:</strong>
+  <%= @log.address %>
+</p>
+
+<p>
+  <%= link_to "Destroy", [@device, @log], :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", [@device, :logs] %>
+</p>

@@ -1,4 +1,11 @@
 Systemak::Application.routes.draw do |map|
+
+  resources :devices do
+    resources :logs, :only => [:index, :show, :destroy]
+  end
+  
+  root :to => "devices#index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

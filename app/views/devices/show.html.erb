@@ -1,0 +1,21 @@
+<% title "Device" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @device.name %>
+</p>
+<p>
+  <strong>Ip Address:</strong>
+  <%= @device.ip_address %>
+</p>
+<p>
+  <strong>Online:</strong>
+  <%= @device.online %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_device_path(@device) %> |
+  <%= link_to "Destroy", @device, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", devices_path %>
+  <%= link_to "Log", [@device, :logs] %>
+</p>
