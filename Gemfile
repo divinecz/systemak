@@ -6,6 +6,7 @@ gem 'rails', '3.0.0.beta3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql'
+gem 'log_parser', '0.2.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
