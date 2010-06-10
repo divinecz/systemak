@@ -16,13 +16,13 @@ module DeviceReader
     end
 
     def raw_read(log_address = current_log_address)
-      log_address = current_log_address if log_address > end_log_address || log_address < start_log_address # ?
-      "#{"%06X" % log_address}:#{LOGS[rand(LOGS.size)]}"
+      log_address = current_log_address if log_address > end_log_address || log_address < start_log_address
+      "#{log_address.to_address}:#{LOGS[rand(LOGS.size)]}"
     end
 
     def raw_status
-      @current_log_address += 32 if rand(10) > 7
-      "SL:#{"%06X" % start_log_address} EL:#{"%06X" % end_log_address} AL:#{"%06X" % current_log_address}\r\nSLSD:023B40 ELSD:423B40 ALSD:027AA3"
+      @current_log_address += 32# if rand(10) > 7
+      "SL:#{start_log_address.to_address} EL:#{end_log_address.to_address} AL:#{current_log_address.to_address}\r\nSLSD:023B40 ELSD:423B40 ALSD:027AA3"
     end
   end
 end

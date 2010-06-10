@@ -1,3 +1,4 @@
+require "open-uri"
 module DeviceReader
   class HttpReader
 
@@ -8,7 +9,7 @@ module DeviceReader
     end
 
     def raw_read(log_address)
-      open("http://#{@ip_address}/logy.txt?A35=#{"%06X" % log_address}")
+      open("http://#{@ip_address}/logy.txt?A35=#{log_address.to_address}")
     end
 
     def raw_status

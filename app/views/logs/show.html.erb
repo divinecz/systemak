@@ -8,6 +8,10 @@
   <strong>Address:</strong>
   <%= @log.address %>
 </p>
+<p>
+  <strong>Data:</strong>
+  <%= @log.raw_data.unpack("H*").first %>
+</p>
 
 <p>
   <%= link_to "Destroy", [@device, @log], :confirm => 'Are you sure?', :method => :delete %> |

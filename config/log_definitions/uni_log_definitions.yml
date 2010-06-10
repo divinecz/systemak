@@ -1,0 +1,77 @@
+templates:
+  time: &time
+    time_seconds:
+      read: "1.0-1.5"
+      type: uint
+    time_minutes:
+      read: "1.6-2.3"
+      type: uint
+    time_hours:
+      read: "2.4-2.7,0.7"
+      type: uint
+logs:
+  0x01:
+    name: time_over
+    size: 8
+    attributes:
+      <<: *time
+  0x03:
+    name: reset_log
+    size: 8
+    attributes:
+      <<: *time
+  0x04:
+    name: reset_log
+    size: 8
+    attributes:
+      <<: *time
+  0x06:
+    name: time_set
+    size: 8
+    attributes:
+      <<: *time
+  0x0d:
+    name: warehouse_status_change
+    size: 8
+    attributes:
+      <<: *time
+  0x2c:
+    name: workshift_start
+    size: 8
+    attributes:
+      <<: *time
+  0x2d:
+    name: workshift_end
+    size: 8
+    attributes:
+      <<: *time
+  0x2f:
+    name: multi_plu
+    size: 8
+    attributes:
+      <<: *time
+  0x43:
+    name: sha_memory
+    size: 8
+    attributes:
+      <<: *time
+  0x48:
+    name: sha_backup
+    size: 8
+    attributes:
+      <<: *time
+  0x4b:
+    name: new_bill_item
+    size: 8
+    attributes:
+      <<: *time
+  0x4c:
+    name: bill_status_change
+    size: 8
+    attributes:
+      <<: *time
+  0x4d:
+    name: memory_change
+    size: 8
+    attributes:
+      <<: *time

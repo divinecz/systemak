@@ -8,7 +8,7 @@
   <% for log in @logs %>
     <tr>
       <td><%= log.device %></td>
-      <td><%= log.address %></td>
+      <td><%= log.address.to_address %></td>
       <td><%= link_to "Show", [@device, log] %></td>
       <td><%= link_to "Destroy", [@device, log], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>

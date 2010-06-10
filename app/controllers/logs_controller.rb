@@ -14,6 +14,6 @@ class LogsController < ApplicationController
     @log = @device.logs.find(params[:id])
     @log.destroy
     flash[:notice] = "Successfully destroyed log."
-    redirect_to @device, :logs
+    redirect_to [@device, :logs]
   end
 end
