@@ -5,17 +5,25 @@
   <%= @device.name %>
 </p>
 <p>
-  <strong>Ip Address:</strong>
+  <strong>IP adresa:</strong>
   <%= @device.ip_address %>
 </p>
 <p>
   <strong>Online:</strong>
   <%= @device.online %>
 </p>
+<p>
+  <strong>Poslední komunikace:</strong>
+  <%= l @device.last_communication_at %>
+</p>
+<p>
+  <strong>Poslední komunikace trvala:</strong>
+  <%= @device.last_communication_took %>ms
+</p>
 
 <p>
   <%= link_to "Edit", edit_device_path(@device) %> |
   <%= link_to "Destroy", @device, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", devices_path %>
+  <%= link_to "View All", devices_path %> |
   <%= link_to "Log", [@device, :logs] %>
 </p>

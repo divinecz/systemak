@@ -7,6 +7,7 @@ class Device < ActiveRecord::Base
   validates :online, :inclusion => [true, false]
 
   LOG_DEFINITIONS_PATH = Rails.root.join("config", "log_definitions", "uni_log_definitions.yml")
+  UNI_LOG_PACKET_SIZE = 8
 
   def to_s
     self.name
@@ -23,18 +24,16 @@ class Device < ActiveRecord::Base
 
   def refresh!
     if self.online?
+      communication_start = Time.now
       initialize_new! unless initialized?
       device_current_log_address = self.read_current_log_address
-      while device_current_log_address != self.current_log_address do# && device_current_log_address != self.start_log_address # ?
-        @current_log = ""
+      while device_current_log_address != self.current_log_address do
         log_address = self.current_log_address
-        begin
-          logger.info self.log_parser.parse.inspect
-        rescue LogParser::LogParserError
-          self.current_log_address += 7
-        end
-        self.logs.create!(:address => log_address, :raw_data => @current_log)
+        packet = read_packet
+        self.logs.create!(:address => log_address, :raw_data => packet)
       end
+      self.last_communication_at = communication_start
+      self.last_communication_took = (Time.now - communication_start) * 1000
       save!
     end
   end
@@ -49,7 +48,7 @@ class Device < ActiveRecord::Base
 
   def reader
     @reader ||= @reader = if Rails.env.development?
-      DeviceReader::TestReader.new
+      DeviceReader::TestReader.instance
     else
       DeviceReader::HttpReader.new(self.ip_address)
     end
@@ -75,8 +74,8 @@ class Device < ActiveRecord::Base
     }
   end
 
-  def read_byte_from_buffer(log_address)
-    if @read_buffer.nil? || @read_buffer_current_log_address > log_address || log_address - @read_buffer_current_log_address > 256
+  def read_packet_from_buffer(log_address)
+    if @read_buffer.nil? || @read_buffer_current_log_address > log_address || log_address - @read_buffer_current_log_address > (256 - UNI_LOG_PACKET_SIZE)
       returned_address, returned_data = self.reader.raw_read(log_address).split(":").collect(&:strip)
       if returned_address.hex != log_address
         raise "Requested device read address 0x#{log_address.to_address} does not match returned address 0x#{returned_address}"
@@ -84,16 +83,21 @@ class Device < ActiveRecord::Base
       @read_buffer = returned_data.lines.to_a.pack("H*")
       @read_buffer_current_log_address = log_address
     end
-    @read_buffer.bytes.to_a[log_address - @read_buffer_current_log_address]
+    buffer_current_log_position = log_address - @read_buffer_current_log_address
+    @read_buffer[buffer_current_log_position..(buffer_current_log_position + UNI_LOG_PACKET_SIZE - 1)]
   end
 
-  def read_byte
+  def read_packet
     if initialized?
-      self.current_log_address = self.start_log_address if self.current_log_address >= self.end_log_address
-      byte = read_byte_from_buffer(self.current_log_address)
-      self.current_log_address += 1
-      @current_log << byte
-      byte
+      self.current_log_address = self.start_log_address if self.current_log_address == self.end_log_address
+      packet = read_packet_from_buffer(self.current_log_address)
+      #TODO: rescue from unsuccessful read
+      self.current_log_address = if self.current_log_address + UNI_LOG_PACKET_SIZE == self.end_log_address
+        self.start_log_address
+      else
+        self.current_log_address + UNI_LOG_PACKET_SIZE
+      end
+      packet
     end
   end
 

@@ -5,7 +5,6 @@ class DevicesController < ApplicationController
   
   def show
     @device = Device.find(params[:id])
-    @device.reset!
     @device.refresh!
   end
   
