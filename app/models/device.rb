@@ -89,10 +89,8 @@ class Device < ActiveRecord::Base
 
   def read_byte
     if initialized?
-      log_address = self.start_log_address if self.current_log_address >= self.end_log_address
-      log_address ||= self.current_log_address
-      self.current_log_address = log_address
-      byte = read_byte_from_buffer(log_address)
+      self.current_log_address = self.start_log_address if self.current_log_address >= self.end_log_address
+      byte = read_byte_from_buffer(self.current_log_address)
       self.current_log_address += 1
       @current_log << byte
       byte
