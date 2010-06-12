@@ -13,6 +13,10 @@
   <%= @device.online %>
 </p>
 <p>
+  <strong>Adresa:</strong>
+  <%= @device.current_log_address.to_address %>
+</p>
+<p>
   <strong>Poslední komunikace:</strong>
   <%= l @device.last_communication_at %>
 </p>

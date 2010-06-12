@@ -27,6 +27,7 @@ class Device < ActiveRecord::Base
       communication_start = Time.now
       initialize_new! unless initialized?
       device_current_log_address = self.read_current_log_address
+      logger.info "*******#{device_current_log_address.to_address} --- #{self.current_log_address.to_address}"
       while device_current_log_address != self.current_log_address do
         log_address = self.current_log_address
         packet = read_packet
@@ -48,7 +49,7 @@ class Device < ActiveRecord::Base
 
   def reader
     @reader ||= @reader = if Rails.env.development?
-      DeviceReader::TestReader.instance
+      DEVICE_TEST_READER
     else
       DeviceReader::HttpReader.new(self.ip_address)
     end
