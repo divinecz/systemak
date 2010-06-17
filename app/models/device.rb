@@ -27,7 +27,6 @@ class Device < ActiveRecord::Base
       communication_start = Time.now
       initialize_new! unless initialized?
       device_current_log_address = self.read_current_log_address
-      logger.info "*******#{device_current_log_address.to_address} --- #{self.current_log_address.to_address}"
       while device_current_log_address != self.current_log_address do
         log_address = self.current_log_address
         packet = read_packet

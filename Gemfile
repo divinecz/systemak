@@ -7,6 +7,8 @@ gem 'rails', '3.0.0.beta4'
 
 gem 'ruby-mysql'
 gem 'log_parser', '0.2.1', :group => :production
+gem 'eventmachine'
+gem 'rufus-scheduler'
 group :development do
   gem 'nifty-generators'
   gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.1'
