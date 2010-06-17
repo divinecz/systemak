@@ -6,12 +6,12 @@ gem 'rails', '3.0.0.beta4'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'ruby-mysql'
-gem 'log_parser', '0.2.1', :group => :production
+gem 'log_parser', '0.2.3', :group => :production
 gem 'eventmachine'
 gem 'rufus-scheduler'
 group :development do
   gem 'nifty-generators'
-  gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.1'
+  gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.3'
 end
 
 # Use unicorn as the web server
