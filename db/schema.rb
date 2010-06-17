@@ -9,26 +9,37 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100604091236) do
+ActiveRecord::Schema.define(:version => 20100617140920) do
 
   create_table "devices", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                    :limit => 30,                    :null => false
-    t.string   "ip_address",              :limit => 15,                    :null => false
-    t.boolean  "online",                                :default => false, :null => false
+    t.string   "name",                    :limit => 30, :null => false
+    t.string   "ip_address",              :limit => 15, :null => false
     t.integer  "start_log_address"
     t.integer  "end_log_address"
     t.integer  "current_log_address"
     t.date     "last_captured_date"
     t.datetime "last_communication_at"
     t.integer  "last_communication_took"
+    t.string   "current_state",                         :null => false
   end
 
+  add_index "devices", ["current_state"], :name => "index_devices_on_current_state"
   add_index "devices", ["ip_address"], :name => "index_devices_on_ip_address", :unique => true
   add_index "devices", ["name"], :name => "index_devices_on_name", :unique => true
 
-  create_table "logs", :force => true do |t|
+  create_table "error_messages", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "device_id",   :null => false
+    t.string   "title",       :null => false
+    t.text     "description", :null => false
+  end
+
+  add_index "error_messages", ["device_id"], :name => "index_error_messages_on_device_id"
+
+  create_table "packets", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "device_id",  :null => false
@@ -36,6 +47,6 @@ ActiveRecord::Schema.define(:version => 20100604091236) do
     t.binary   "raw_data",   :null => false
   end
 
-  add_index "logs", ["device_id"], :name => "index_logs_on_device_id"
+  add_index "packets", ["device_id"], :name => "index_logs_on_device_id"
 
 end

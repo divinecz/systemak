@@ -1,0 +1,18 @@
+<% title "Vyčtená data ze zařízení #{@device}" %>
+<%= link_to "Zpět na zařízení", @device %>
+<table>
+	<tr>
+		<th>Zařízení</th>
+		<th>Adresa</th>
+	</tr>
+	<% @packets.each do |packet| %>
+	<tr>
+		<td><%= packet.device %></td>
+		<td><%= packet.address.to_address %></td>
+		<td><%= packet.raw_data.unpack("H*").first %></td>
+		<td><%= link_to "Zobrazit", [@device, packet] %></td>
+		<td><%= link_to "Odstranit", [@device, packet], :confirm => 'Jste si jist?', :method => :delete %></td>
+	</tr>
+	<% end %>
+</table>
+

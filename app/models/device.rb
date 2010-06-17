@@ -1,10 +1,30 @@
 class Device < ActiveRecord::Base
 
-  has_many :logs, :dependent => :destroy
+  has_many :packets, :dependent => :destroy
+  has_many :error_messages, :dependent => :destroy
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 30 }
   validates :ip_address, :presence => true, :uniqueness => true, :format => /^(\d{1,3}\.){3}\d{1,3}$/
-  validates :online, :inclusion => [true, false]
+
+  include AASM
+  aasm_column :current_state
+  aasm_initial_state :online
+  aasm_state :offline
+  aasm_state :not_available
+  aasm_state :not_responding
+  aasm_state :online
+  aasm_event :offline do
+    transitions :to => :offline, :from => [:online, :not_available]
+  end
+  aasm_event :not_available do
+    transitions :to => :not_available, :from => [:not_responding]
+  end
+  aasm_event :not_responding do
+    transitions :to => :not_responding, :from => [:online]
+  end
+  aasm_event :online do
+    transitions :to => :online, :from => [:not_responding, :offline]
+  end
 
   LOG_DEFINITIONS_PATH = Rails.root.join("config", "log_definitions", "uni_log_definitions.yml")
   UNI_LOG_PACKET_SIZE = 8
@@ -30,7 +50,7 @@ class Device < ActiveRecord::Base
       while device_current_log_address != self.current_log_address do
         log_address = self.current_log_address
         packet = read_packet
-        self.logs.create!(:address => log_address, :raw_data => packet)
+        self.packets.create!(:address => log_address, :raw_data => packet)
       end
       self.last_communication_at = communication_start
       self.last_communication_took = (Time.now - communication_start) * 1000

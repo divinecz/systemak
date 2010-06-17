@@ -1,7 +1,8 @@
 Systemak::Application.routes.draw do |map|
 
   resources :devices do
-    resources :logs, :only => [:index, :show, :destroy]
+    resources :packets, :only => [:index, :show, :destroy]
+    resources :error_messages, :only => [:index, :show, :destroy]
   end
   
   root :to => "devices#index"

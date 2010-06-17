@@ -1,16 +1,12 @@
 <%= form_for @device do |f| %>
-  <%= f.error_messages %>
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :ip_address %><br />
-    <%= f.text_field :ip_address %>
-  </p>
-  <p>
-    <%= f.label :online %><br />
-    <%= f.check_box :online %>
-  </p>
-  <p><%= f.submit %></p>
+<%= f.error_messages %>
+<p>
+	<%= f.label :name %><br />
+	<%= f.text_field :name %>
+</p>
+<p>
+	<%= f.label :ip_address %><br />
+	<%= f.text_field :ip_address %>
+</p>
+<p><%= f.submit %></p>
 <% end %>

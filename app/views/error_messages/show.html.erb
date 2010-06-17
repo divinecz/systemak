@@ -1,0 +1,19 @@
+<% title "Chybové hlášení zařízení #{@device}" %>
+
+<p>
+	<strong>Zařízení:</strong>
+	<%= @error_message.device %>
+</p>
+<p>
+	<strong>Chyba:</strong>
+	<%= @error_message.title %>
+</p>
+<p>
+	<strong>Popis:</strong>
+	<%= @error_message.description %>
+</p>
+
+<p>
+	<%= link_to "Odstranit", [@device, @error_message], :confirm => 'Jste si jist?', :method => :delete %> |
+	<%= link_to "Zobrazit všechna chybová hlášení", [@device, :error_messages] %>
+</p>

@@ -5,6 +5,7 @@ gem 'rails', '3.0.0.beta4'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'aasm', :git => 'http://github.com/rubyist/aasm.git' # gem version not compatible with Rails 3 (temporary fix)
 gem 'ruby-mysql'
 gem 'log_parser', '0.2.3', :group => :production
 gem 'eventmachine'

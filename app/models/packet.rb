@@ -1,4 +1,4 @@
-class Log < ActiveRecord::Base
+class Packet < ActiveRecord::Base
 
   belongs_to :device
 

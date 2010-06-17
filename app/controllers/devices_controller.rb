@@ -1,3 +1,4 @@
+# encoding: utf-8
 class DevicesController < ApplicationController
   def index
     @devices = Device.all
@@ -5,7 +6,6 @@ class DevicesController < ApplicationController
   
   def show
     @device = Device.find(params[:id])
-    @device.refresh!
   end
   
   def new
@@ -15,7 +15,7 @@ class DevicesController < ApplicationController
   def create
     @device = Device.new(params[:device])
     if @device.save
-      flash[:notice] = "Successfully created device."
+      flash[:notice] = "Zařízení bylo přidáno."
       redirect_to @device
     else
       render :action => 'new'
@@ -29,7 +29,7 @@ class DevicesController < ApplicationController
   def update
     @device = Device.find(params[:id])
     if @device.update_attributes(params[:device])
-      flash[:notice] = "Successfully updated device."
+      flash[:notice] = "Zařízení bylo upraveno."
       redirect_to @device
     else
       render :action => 'edit'
@@ -39,7 +39,7 @@ class DevicesController < ApplicationController
   def destroy
     @device = Device.find(params[:id])
     @device.destroy
-    flash[:notice] = "Successfully destroyed device."
+    flash[:notice] = "Zařízení bylo odstraněno."
     redirect_to devices_url
   end
 end

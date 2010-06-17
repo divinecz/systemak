@@ -1,0 +1,19 @@
+<% title "Paket" %>
+
+<p>
+	<strong>Zařízení:</strong>
+	<%= @packet.device %>
+</p>
+<p>
+	<strong>Adresa:</strong>
+	<%= @packet.address %>
+</p>
+<p>
+	<strong>Data:</strong>
+	<%= @packet.raw_data.unpack("H*").first %>
+</p>
+
+<p>
+	<%= link_to "Odstranit", [@device, @log], :confirm => 'Jste si jist?', :method => :delete %> |
+	<%= link_to "Zobrazit všechny pakety", [@device, :packets] %>
+</p>
