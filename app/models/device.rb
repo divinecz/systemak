@@ -14,10 +14,10 @@ class Device < ActiveRecord::Base
   include AASM
   aasm_column :current_state
   aasm_initial_state :online
-  aasm_state :offline
-  aasm_state :not_available
-  aasm_state :not_responding
-  aasm_state :online
+  aasm_state :offline, :after_enter => :state_changed
+  aasm_state :not_available, :after_enter => :state_changed
+  aasm_state :not_responding, :after_enter => :state_changed
+  aasm_state :online, :after_enter => :state_changed
   aasm_event :offline do
     transitions :to => :offline, :from => [:online, :not_available]
   end
@@ -118,7 +118,7 @@ class Device < ActiveRecord::Base
     if @read_buffer.nil? || @read_buffer_current_log_address > log_address || log_address - @read_buffer_current_log_address > (256 - UNI_LOG_PACKET_SIZE)
       begin
         raw_data = self.reader.raw_read(log_address)
-      rescue
+      rescue Exception => exception
         process_not_responding(exception)
         return
       end
@@ -158,11 +158,16 @@ class Device < ActiveRecord::Base
   def process_not_responding(exception)
     if system("ping", "-c 5", self.ip_address)
       not_responding! unless not_responding?
+      self.error_messages.add("Zařízení je nedostupné", "Zařízení je nedostupné a neodpovídá na ping.")
       self.error_messages.add("Zařízení neodpovídá", "Chyba #{exception.class.to_s}: #{exception.to_s}")
     else
       not_available! unless not_available?
       self.error_messages.add("Zařízení je nedostupné", "Zařízení je nedostupné a neodpovídá na ping.")
     end
+  end
+
+  def state_changed
+    Mailer.device_state_changed(self).deliver
   end
 
 end

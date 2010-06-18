@@ -1,0 +1,11 @@
+Změna stavu zařízení
+====================
+
+Zařízení: <%= @device %>
+Čas: <%= l Time.now, :format => :long %>
+Stav: <%= @device.current_state_name %>
+
+IP Adresa: <%= @device.ip_address %>
+<% if @device.last_communication_at -%>
+Poslední komunikace: <%= l @device.last_communication_at, :format => :long %> (<%= @device.last_communication_took %>ms)
+<% end -%>
