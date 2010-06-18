@@ -10,7 +10,7 @@
 	<tr>
 		<td><%= device.name %></td>
 		<td><%= device.ip_address %></td>
-		<td><%= device.current_state %></td>
+		<td><%= device.current_state_name %></td>
 		<td><%= link_to "Zobrazit", device %></td>
 		<td><%= link_to "Upravit", edit_device_path(device) %></td>
 		<td><%= link_to "Smazat", device, :confirm => 'Jste si jist?', :method => :delete %></td>

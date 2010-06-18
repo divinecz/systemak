@@ -9,6 +9,7 @@ gem 'aasm', :git => 'http://github.com/rubyist/aasm.git' # gem version not compa
 gem 'ruby-mysql'
 gem 'log_parser', '0.2.3', :group => :production
 gem 'eventmachine'
+gem 'exception_notification', :git => 'http://github.com/lawrencepit/exception_notification.git', :require => 'exception_notifier' # rails version is broken for now
 gem 'rufus-scheduler'
 group :development do
   gem 'nifty-generators'

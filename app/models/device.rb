@@ -1,7 +1,12 @@
+# encoding: utf-8
 class Device < ActiveRecord::Base
 
   has_many :packets, :dependent => :destroy
-  has_many :error_messages, :dependent => :destroy
+  has_many :error_messages, :dependent => :destroy do
+    def add(title, description)
+      create!(:title => title, :description => description)
+    end
+  end
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 30 }
   validates :ip_address, :presence => true, :uniqueness => true, :format => /^(\d{1,3}\.){3}\d{1,3}$/
@@ -17,13 +22,13 @@ class Device < ActiveRecord::Base
     transitions :to => :offline, :from => [:online, :not_available]
   end
   aasm_event :not_available do
-    transitions :to => :not_available, :from => [:not_responding]
+    transitions :to => :not_available, :from => [:online, :not_responding]
   end
   aasm_event :not_responding do
     transitions :to => :not_responding, :from => [:online]
   end
   aasm_event :online do
-    transitions :to => :online, :from => [:not_responding, :offline]
+    transitions :to => :online, :from => [:not_available, :not_responding, :offline]
   end
 
   LOG_DEFINITIONS_PATH = Rails.root.join("config", "log_definitions", "uni_log_definitions.yml")
@@ -31,6 +36,10 @@ class Device < ActiveRecord::Base
 
   def to_s
     self.name
+  end
+
+  def current_state_name
+    { "offline" => "Offline", "not_available" => "Zařízení je nedostupné", "not_responding" => "Zařízení neodpovídá", "online" => "Online" }[self.current_state]
   end
 
   def initialized?
@@ -43,26 +52,28 @@ class Device < ActiveRecord::Base
   end
 
   def refresh!
-    if self.online?
-      communication_start = Time.now
-      initialize_new! unless initialized?
+    communication_start = Time.now
+    initialize_new! unless initialized?
+    if initialized?
       device_current_log_address = self.read_current_log_address
-      while device_current_log_address != self.current_log_address do
-        log_address = self.current_log_address
-        packet = read_packet
-        self.packets.create!(:address => log_address, :raw_data => packet)
+      if device_current_log_address
+        while device_current_log_address != self.current_log_address do
+          log_address = self.current_log_address
+          packet = read_packet
+          self.packets.create!(:address => log_address, :raw_data => packet) if packet
+        end
+        self.last_communication_at = communication_start
+        self.last_communication_took = (Time.now - communication_start) * 1000
       end
-      self.last_communication_at = communication_start
-      self.last_communication_took = (Time.now - communication_start) * 1000
-      save!
     end
+    save!
   end
 
   protected
 
   def log_parser
     @log_parser ||= @log_parser = LogParser::UniLogParser.new(LOG_DEFINITIONS_PATH) do
-      read_byte
+      read_packet
     end
   end
 
@@ -79,12 +90,21 @@ class Device < ActiveRecord::Base
     self.start_log_address = status[:start_log_address]
     self.end_log_address = status[:end_log_address]
     self.current_log_address = status[:start_log_address]
-    raise "Unable to initialize device" unless initialized?
-    save!
+    if initialized?
+      save!
+    else
+      self.error_messages.add("Chyba inicializace", "Inicializace nového zařízení se nezdařila.")
+    end
   end
 
   def read_status
-    raw_status = self.reader.raw_status
+    begin
+      raw_status = self.reader.raw_status
+    rescue Exception => exception
+      process_not_responding(exception)
+      return
+    end
+    online! unless online?
     raw_status_lines = raw_status.split("\r\n")
     raw_status_parts = raw_status_lines[0].split(" ")
     {
@@ -96,9 +116,17 @@ class Device < ActiveRecord::Base
 
   def read_packet_from_buffer(log_address)
     if @read_buffer.nil? || @read_buffer_current_log_address > log_address || log_address - @read_buffer_current_log_address > (256 - UNI_LOG_PACKET_SIZE)
-      returned_address, returned_data = self.reader.raw_read(log_address).split(":").collect(&:strip)
+      begin
+        raw_data = self.reader.raw_read(log_address)
+      rescue
+        process_not_responding(exception)
+        return
+      end
+      online! unless online?
+      returned_address, returned_data = raw_data.split(":").collect(&:strip)
       if returned_address.hex != log_address
-        raise "Requested device read address 0x#{log_address.to_address} does not match returned address 0x#{returned_address}"
+        self.error_messages.add("Chyba čtení", "Požadovaná adresa pro čtení #{log_address.to_address} neodpovídá adrese #{returned_address} vrácené zařízením.")
+        return
       end
       @read_buffer = returned_data.lines.to_a.pack("H*")
       @read_buffer_current_log_address = log_address
@@ -111,18 +139,30 @@ class Device < ActiveRecord::Base
     if initialized?
       self.current_log_address = self.start_log_address if self.current_log_address == self.end_log_address
       packet = read_packet_from_buffer(self.current_log_address)
-      #TODO: rescue from unsuccessful read
-      self.current_log_address = if self.current_log_address + UNI_LOG_PACKET_SIZE == self.end_log_address
-        self.start_log_address
-      else
-        self.current_log_address + UNI_LOG_PACKET_SIZE
+      if packet
+        self.current_log_address = if self.current_log_address + UNI_LOG_PACKET_SIZE == self.end_log_address
+          self.start_log_address
+        else
+          self.current_log_address + UNI_LOG_PACKET_SIZE
+        end
       end
       packet
     end
   end
 
   def read_current_log_address
-    read_status[:current_log_address]
+    status = read_status
+    status[:current_log_address] if status
+  end
+
+  def process_not_responding(exception)
+    if system("ping", "-c 5", self.ip_address)
+      not_responding! unless not_responding?
+      self.error_messages.add("Zařízení neodpovídá", "Chyba #{exception.class.to_s}: #{exception.to_s}")
+    else
+      not_available! unless not_available?
+      self.error_messages.add("Zařízení je nedostupné", "Zařízení je nedostupné a neodpovídá na ping.")
+    end
   end
 
 end

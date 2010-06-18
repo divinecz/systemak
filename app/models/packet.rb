@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Packet < ActiveRecord::Base
 
   belongs_to :device

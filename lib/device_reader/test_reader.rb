@@ -19,14 +19,14 @@ module DeviceReader
     end
 
     def raw_read(log_address = current_log_address)
-      delay
+      delay_or_raise
       raise "Invalid log address" if log_address >= END_LOG_ADDRESS || log_address < START_LOG_ADDRESS
       position = (log_address - START_LOG_ADDRESS) * 2
       "#{log_address.to_address}:#{LOGS[position..position + 512]}"
     end
 
     def raw_status
-      delay
+      delay_or_raise
       self.current_log_address += (8 * (rand(7) + 1)) if rand(10) > 8
       self.current_log_address = START_LOG_ADDRESS if self.current_log_address >= END_LOG_ADDRESS
       "SL:#{START_LOG_ADDRESS.to_address} EL:#{END_LOG_ADDRESS.to_address} AL:#{self.current_log_address.to_address}\r\nSLSD:023B40 ELSD:423B40 ALSD:027AA3"
@@ -34,8 +34,12 @@ module DeviceReader
 
     private
 
-    def delay
-      sleep rand(500).to_f / 1000
+    def delay_or_raise
+      if rand(10) < 9
+        sleep rand(500).to_f / 1000
+      else
+        raise StandardError, "Test error"
+      end
     end
   end
 end
