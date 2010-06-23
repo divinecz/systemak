@@ -2,7 +2,8 @@
 
 <%= render 'form' %>
 
-<p>
-	<%= link_to "Zobrazit", @device %> |
-	<%= link_to "Zobrazit všechna zařízení", devices_path %>
+<p class="action-buttons right">
+	<%= link_to "Zobrazit", @device, :class => 'button-link' %>
+	<%= link_to "Zobrazit všechna zařízení", devices_path, :class => 'button-link' %>
 </p>
+

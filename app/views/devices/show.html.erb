@@ -14,21 +14,21 @@
 </p>
 <p>
 	<strong>Adresa:</strong>
-	<%= @device.current_log_address.to_address %>
+	<%= @device.current_log_address.try(:to_address) %>
 </p>
 <p>
 	<strong>Poslední komunikace:</strong>
-	<%= l @device.last_communication_at %>
+	<%= @device.last_communication_at.present? ? l(@device.last_communication_at) : nil %>
 </p>
 <p>
 	<strong>Poslední komunikace trvala:</strong>
 	<%= @device.last_communication_took %>ms
 </p>
 
-<p>
-	<%= link_to "Upravit", edit_device_path(@device) %> |
-	<%= link_to "Odstranit", @device, :confirm => 'Are you sure?', :method => :delete %> |
-	<%= link_to "Zobrazit všechna zařízení", devices_path %> |
-	<%= link_to "Pakety", [@device, :packets] %> |
-	<%= link_to "Chybová hlášení", [@device, :error_messages] %>
+<p class="action-buttons right">
+	<%= link_to "Upravit", edit_device_path(@device), :class => 'button-link' %>
+	<%= link_to "Odstranit", @device, :confirm => 'Are you sure?', :method => :delete, :class => 'button-link' %>
+	<%= link_to "Zobrazit všechna zařízení", devices_path, :class => 'button-link' %>
+	<%= link_to "Pakety", [@device, :packets], :class => 'button-link' %>
+	<%= link_to "Chybová hlášení", [@device, :error_messages], :class => 'button-link' %>
 </p>
