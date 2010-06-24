@@ -1,17 +1,20 @@
 # encoding: utf-8
 class DevicesController < ApplicationController
+
+  respond_to :html, :json
+
   def index
-    @devices = Device.all
+    respond_with(@devices = Device.all)
   end
-  
+
   def show
     @device = Device.find(params[:id])
   end
-  
+
   def new
     @device = Device.new
   end
-  
+
   def create
     @device = Device.new(params[:device])
     if @device.save
@@ -21,11 +24,11 @@ class DevicesController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @device = Device.find(params[:id])
   end
-  
+
   def update
     @device = Device.find(params[:id])
     if @device.update_attributes(params[:device])
@@ -35,7 +38,7 @@ class DevicesController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   def destroy
     @device = Device.find(params[:id])
     @device.destroy

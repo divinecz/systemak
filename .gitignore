@@ -5,3 +5,4 @@ config/database.yml
 log/*.log
 nbproject
 tmp/**/*
+sproutcore/tmp
