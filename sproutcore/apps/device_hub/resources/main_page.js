@@ -11,7 +11,7 @@ DeviceHub.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'toolbarView splitView'.w(),
+    childViews: "toolbarView splitView".w(),
 
     toolbarView: SC.ToolbarView.design({
       layout: {
@@ -20,7 +20,7 @@ DeviceHub.mainPage = SC.Page.design({
         right: 0,
         height: 36
       },
-      childViews: 'labelView addButton'.w(),
+      childViews: "labelView addButton".w(),
       anchorLocation: SC.ANCHOR_TOP,
       labelView: SC.LabelView.design({
         layout: {
@@ -31,7 +31,7 @@ DeviceHub.mainPage = SC.Page.design({
         },
         controlSize: SC.LARGE_CONTROL_SIZE,
         fontWeight: SC.BOLD_WEIGHT,
-        value: 'Device Hub'
+        value: "Device Hub"
       }),
       addButton: SC.ButtonView.design({
         layout: {
@@ -54,11 +54,11 @@ DeviceHub.mainPage = SC.Page.design({
       defaultThickness: 0.25,
       topLeftView: SC.ScrollView.design({
         hasHorizontalScroller: NO,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         anchorLocation: SC.ANCHOR_BOTTOM,
         contentView: SC.SourceListView.design({
-          contentBinding: 'DeviceHub.devicesController.arrangedObjects',
-          selectionBinding: 'DeviceHub.devicesController.selection',
+          contentBinding: "DeviceHub.devicesController.arrangedObjects",
+          selectionBinding: "DeviceHub.devicesController.selection",
           contentValueKey: "name",
           hasContentIcon: YES,
           contentIconKey: "icon",
@@ -67,7 +67,19 @@ DeviceHub.mainPage = SC.Page.design({
       }),
 
       bottomRightView: SC.View.design({
-        backgroundColor: 'white',
+        //backgroundColor: "white",
+        childViews: "deviceLabelView".w(),
+        deviceLabelView: SC.LabelView.design({
+          layout: {
+            top: 180,
+            height: 20,
+            width: 200,
+            left: 20
+          },
+          valueBinding: SC.binding("DeviceHub.deviceController.name", this),
+          valueValueKey: "name",
+        })
+
       })
 
     })

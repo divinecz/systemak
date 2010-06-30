@@ -15,12 +15,17 @@ DeviceHub.Device = SC.Record.extend(
 /** @scope DeviceHub.Device.prototype */
 {
   primaryKey: "id",
+
   name: SC.Record.attr(String),
-  ip_address: SC.Record.attr(String),
-  current_state: SC.Record.attr(String),
+  ipAddress: SC.Record.attr(String, { key: "ip_address" }),
+  currentState: SC.Record.attr(String, { key: "current_state" }),
+  packets: SC.Record.toMany("DeviceHub.Packet", {
+    inverse: "device", isMaster: YES
+  }),
+
   icon: sc_static("icons/server.png"),
   stateIcon: function() {
-    this.get("current_state");
+    this.get("currentState");
     return sc_static("icons/server.png");
   }.property()
 });
