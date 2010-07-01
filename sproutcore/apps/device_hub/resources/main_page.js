@@ -68,16 +68,24 @@ DeviceHub.mainPage = SC.Page.design({
 
       bottomRightView: SC.View.design({
         //backgroundColor: "white",
-        childViews: "deviceLabelView".w(),
-        deviceLabelView: SC.LabelView.design({
+        childViews: "deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
+        deviceIpAddressLabelView: SC.LabelView.design({
           layout: {
-            top: 180,
+            top: 20,
             height: 20,
             width: 200,
             left: 20
           },
-          valueBinding: SC.binding("DeviceHub.deviceController.name", this),
-          valueValueKey: "name",
+          value: "IP Adresa"
+        }),
+        deviceIpAddressValueLabelView: SC.LabelView.design({
+          layout: {
+            top: 20,
+            height: 20,
+            width: 200,
+            left: 220
+          },
+          valueBinding: "DeviceHub.deviceController.ipAddress"
         })
 
       })
