@@ -19,6 +19,7 @@ DeviceHub.Device = SC.Record.extend(
   name: SC.Record.attr(String),
   ipAddress: SC.Record.attr(String, { key: "ip_address" }),
   currentState: SC.Record.attr(String, { key: "current_state" }),
+  currentStateName: SC.Record.attr(String, { key: "current_state_name" }),
   packets: SC.Record.toMany("DeviceHub.Packet", {
     inverse: "device", isMaster: YES
   }),

@@ -77,26 +77,43 @@ DeviceHub.mainPage = SC.Page.design({
             height: 80
           },
           contentView: SC.View.design({
-            childViews: "deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
-            deviceIpAddressLabelView: SC.LabelView.design({
+            childViews: "deviceCurrentStateNameLabelView deviceCurrentStateNameValueLabelView deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
+            deviceCurrentStateNameLabelView: SC.LabelView.design({
               layout: {
-                top: 20,
+                top: 5,
+                height: 20,
+                width: 100,
+                left: 20
+              },
+              value: "Stav zařízení"
+            }),
+            deviceCurrentStateNameValueLabelView: SC.LabelView.design({
+              layout: {
+                top: 5,
                 height: 20,
                 width: 200,
+                left: 150
+              },
+              valueBinding: "DeviceHub.deviceController.currentStateName"
+            }),
+            deviceIpAddressLabelView: SC.LabelView.design({
+              layout: {
+                top: 35,
+                height: 20,
+                width: 100,
                 left: 20
               },
               value: "IP Adresa"
             }),
             deviceIpAddressValueLabelView: SC.LabelView.design({
               layout: {
-                top: 20,
+                top: 35,
                 height: 20,
                 width: 200,
-                left: 220
+                left: 150
               },
               valueBinding: "DeviceHub.deviceController.ipAddress"
             })
-
           })
         }),
         tabView: SC.TabView.design({
