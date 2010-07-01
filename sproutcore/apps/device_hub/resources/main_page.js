@@ -80,7 +80,7 @@ DeviceHub.mainPage = SC.Page.design({
             childViews: "deviceCurrentStateNameLabelView deviceCurrentStateNameValueLabelView deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
             deviceCurrentStateNameLabelView: SC.LabelView.design({
               layout: {
-                top: 5,
+                top: 0,
                 height: 20,
                 width: 100,
                 left: 20
@@ -89,7 +89,7 @@ DeviceHub.mainPage = SC.Page.design({
             }),
             deviceCurrentStateNameValueLabelView: SC.LabelView.design({
               layout: {
-                top: 5,
+                top: 0,
                 height: 20,
                 width: 200,
                 left: 150
@@ -98,7 +98,7 @@ DeviceHub.mainPage = SC.Page.design({
             }),
             deviceIpAddressLabelView: SC.LabelView.design({
               layout: {
-                top: 35,
+                top: 30,
                 height: 20,
                 width: 100,
                 left: 20
@@ -107,7 +107,7 @@ DeviceHub.mainPage = SC.Page.design({
             }),
             deviceIpAddressValueLabelView: SC.LabelView.design({
               layout: {
-                top: 35,
+                top: 30,
                 height: 20,
                 width: 200,
                 left: 150
@@ -123,13 +123,16 @@ DeviceHub.mainPage = SC.Page.design({
             top: 110,
             bottom: 15
           },
+          nowShowing: "DeviceHub.mainPage.packetsTableView",
           itemTitleKey: "title",
-          //itemValueKey: "value",
+          itemValueKey: "value",
           items: [{
-            title: "Pakety"
+            title: "Pakety",
+            value: "DeviceHub.mainPage.packetsTableView"
           },
           {
-            title: "Chybová hlášení"
+            title: "Chybová hlášení",
+            value: ""
           }]
         })
 
@@ -137,6 +140,36 @@ DeviceHub.mainPage = SC.Page.design({
 
     })
 
+  }),
+
+  packetsTableView: SC.TableView.design({
+    layout: {
+      left: 15,
+      right: 15,
+      top: 15,
+      bottom: 15
+    },
+    backgroundColor: "white",
+    columns: [
+    SC.TableColumn.create({
+      key: 'name',
+      label: 'Čas',
+      width: 100
+    }), SC.TableColumn.create({
+      key: 'name',
+      label: 'Adresa',
+      width: 100
+    }), SC.TableColumn.create({
+      key: 'ipAddress',
+      label: 'Data',
+      width: 200
+    })],
+
+    contentBinding: 'DeviceHub.devicesController.arrangedObjects',
+    selectionBinding: 'DeviceHub.devicesController.selection',
+    selectOnMouseDown: YES,
+    exampleView: SC.TableRowView,
+    recordType: DeviceHub.Device
   })
 
 });
