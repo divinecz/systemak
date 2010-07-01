@@ -1,17 +1,28 @@
 <% title "Chybová hlášení zařízení #{@device}" %>
-<%= link_to "Zpět na zařízení", @device %>
-<table>
-	<tr>
-		<th>Zařízení</th>
-		<th>Chyba</th>
-	</tr>
-	<% @error_messages.each do |error_message| %>
-	<tr>
-		<td><%= error_message.device %></td>
-		<td><%= error_message.title %></td>
-		<td><%= link_to "Zobrazit", [@device, error_message] %></td>
-		<td><%= link_to "Odstranit", [@device, error_message], :confirm => 'Jste si jist?', :method => :delete %></td>
-	</tr>
-	<% end %>
-</table>
 
+<% if @error_messages.any? %>
+  <table class="list-table" cellspacing="0">
+    <tr>
+      <th>Zařízení</th>
+      <th>Chyba</th>
+      <th>&nbsp;</th>
+    </tr>
+
+    <% @error_messages.each do |error_message| %>
+      <tr>
+        <td><%= error_message.device %></td>
+        <td><%= error_message.title %></td>
+        <td class="action-links">
+          <%= link_to "Zobrazit", [@device, error_message], :class => 'icon-link show-link' %>
+          <%= link_to "Odstranit", [@device, error_message], :confirm => 'Jste si jist?', :method => :delete, :class => 'icon-link destroy-link' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>Nejsou zaznamenána žádná chybová hlášení.</p>
+<% end %>
+
+<p class="action-buttons right">
+  <%= link_to "Zpět na zařízení", @device, :class => 'button-link' %>
+</p>

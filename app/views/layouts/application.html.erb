@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title><%= yield(:title) || "aaa" %></title>
-	<%= stylesheet_link_tag :all %>
-	<%= javascript_include_tag :defaults %>
-	<%= csrf_meta_tag %>
-	<%= yield(:head) %>
-</head>
-<body>
-	<div id="container">
-		<% flash.each do |name, msg| %>
-		<%= content_tag :div, msg, :id => "flash_#{name}" %>
-		<% end %>
-		<%= content_tag :h1, yield(:title) if show_title? %>
-		<%= yield %>
-	</div>
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="<%= I18n.locale %>" />
+    <title><%= yield(:title) || "Untitled" %></title>
+    <%= stylesheet_link_tag :all %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+    <div id="header">
+      <%= link_to 'Systemák', root_url, :class => 'inverted' %>
+      <span>&raquo;</span>
+      <%= content_tag :h1, yield(:title) if show_title? %>
+    </div>
+    <div id="container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash_#{name}", :class => "lite-corner" %>
+      <% end %>
+      <%= yield %>
+    </div>
+    <div id="footer">
+      &copy; <%= Date.today.year %> Divine
+    </div>
+  </body>
 </html>

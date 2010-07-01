@@ -1,21 +1,31 @@
 <% title "Zařízení" %>
 
-<table>
-	<tr>
-		<th>Název</th>
-		<th>IP adresa</th>
-		<th>Stav</th>
-	</tr>
-	<% @devices.each do |device| %>
-	<tr>
-		<td><%= device.name %></td>
-		<td><%= device.ip_address %></td>
-		<td><%= device.current_state_name %></td>
-		<td><%= link_to "Zobrazit", device %></td>
-		<td><%= link_to "Upravit", edit_device_path(device) %></td>
-		<td><%= link_to "Smazat", device, :confirm => 'Jste si jist?', :method => :delete %></td>
-	</tr>
-	<% end %>
-</table>
+<p class="action-buttons">
+  <%= link_to "Přidat zařízení", new_device_path, :class => 'button-link new-link' %>
+</p>
 
-<p><%= link_to "Přidat zařízení", new_device_path %></p>
+<% if @devices.any? %>
+  <table class="list-table" cellspacing="0">
+    <tr>
+      <th>Název</th>
+      <th>IP adresa</th>
+      <th>Stav</th>
+      <th>&nbsp;</th>
+    </tr>
+
+    <% @devices.each do |device| %>
+      <tr>
+        <td><%= device.name %></td>
+        <td><%= device.ip_address %></td>
+        <td><%= device.current_state_name %></td>
+        <td class="action-links">
+          <%= link_to "Zobrazit", device, :class => 'icon-link show-link' %>
+          <%= link_to "Upravit", edit_device_path(device), :class => 'icon-link edit-link' %>
+          <%= link_to "Odstranit", device, :confirm => 'Jste si jist?', :method => :delete, :class => 'icon-link destroy-link' %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>V systému nejsou evidována žádná zařízení.</p>
+<% end %>

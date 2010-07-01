@@ -1,12 +1,14 @@
 <%= form_for @device do |f| %>
-<%= f.error_messages %>
-<p>
-	<%= f.label :name %><br />
-	<%= f.text_field :name %>
-</p>
-<p>
-	<%= f.label :ip_address %><br />
-	<%= f.text_field :ip_address %>
-</p>
-<p><%= f.submit %></p>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :ip_address %><br />
+    <%= f.text_field :ip_address %>
+  </p>
+  <p class="form-submit">
+    <%= f.submit %> nebo <%= link_to "Zpět", :back %>
+  </p>
 <% end %>
