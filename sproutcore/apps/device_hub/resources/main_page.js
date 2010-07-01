@@ -4,11 +4,11 @@
 // ==========================================================================
 /*globals DeviceHub */
 
-// This page describes the main user interface for your application.  
+// This page describes the main user interface for your application.
 DeviceHub.mainPage = SC.Page.design({
 
   // The main pane is made visible on screen as soon as your app is loaded.
-  // Add childViews to this pane for views to display immediately on page 
+  // Add childViews to this pane for views to display immediately on page
   // load.
   mainPane: SC.MainPane.design({
     childViews: "toolbarView splitView".w(),
@@ -67,25 +67,53 @@ DeviceHub.mainPage = SC.Page.design({
       }),
 
       bottomRightView: SC.View.design({
-        //backgroundColor: "white",
-        childViews: "deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
-        deviceIpAddressLabelView: SC.LabelView.design({
+        backgroundColor: "#d4d7e0",
+        childViews: "wellView tabView".w(),
+        wellView: SC.WellView.design({
           layout: {
-            top: 20,
-            height: 20,
-            width: 200,
-            left: 20
+            top: 15,
+            left: 15,
+            right: 15,
+            height: 80
           },
-          value: "IP Adresa"
+          contentView: SC.View.design({
+            childViews: "deviceIpAddressLabelView deviceIpAddressValueLabelView".w(),
+            deviceIpAddressLabelView: SC.LabelView.design({
+              layout: {
+                top: 20,
+                height: 20,
+                width: 200,
+                left: 20
+              },
+              value: "IP Adresa"
+            }),
+            deviceIpAddressValueLabelView: SC.LabelView.design({
+              layout: {
+                top: 20,
+                height: 20,
+                width: 200,
+                left: 220
+              },
+              valueBinding: "DeviceHub.deviceController.ipAddress"
+            })
+
+          })
         }),
-        deviceIpAddressValueLabelView: SC.LabelView.design({
+        tabView: SC.TabView.design({
           layout: {
-            top: 20,
-            height: 20,
-            width: 200,
-            left: 220
+            left: 15,
+            right: 15,
+            top: 110,
+            bottom: 15
           },
-          valueBinding: "DeviceHub.deviceController.ipAddress"
+          itemTitleKey: "title",
+          //itemValueKey: "value",
+          items: [{
+            title: "Pakety"
+          },
+          {
+            title: "Chybová hlášení"
+          }]
         })
 
       })
