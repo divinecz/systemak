@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
   respond_to :html, :json
 
   def index
-    respond_with(@devices = Device.all)
+    respond_with(@devices = Device.all, :methods => :current_state_name)
   end
 
   def show
