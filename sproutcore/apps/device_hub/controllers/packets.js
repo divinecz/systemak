@@ -13,6 +13,6 @@
 DeviceHub.packetsController = SC.ArrayController.create(
 /** @scope DeviceHub.packetsController.prototype */ {
 
-  // TODO: Add your own code here.
+  contentBinding: "DeviceHub.deviceController.packets"
 
 }) ;

@@ -28,5 +28,6 @@ DeviceHub.main = function main() {
 function main() {
   DeviceHub.main();
   var devices = DeviceHub.store.find(DeviceHub.DEVICES_QUERY);
+	DeviceHub.store.find(DeviceHub.PACKETS_QUERY);
   DeviceHub.devicesController.set("content", devices);
 }

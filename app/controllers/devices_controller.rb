@@ -4,7 +4,9 @@ class DevicesController < ApplicationController
   respond_to :html, :json
 
   def index
-    respond_with(@devices = Device.all, :methods => :current_state_name)
+    respond_with(@devices = Device.all) do |format|
+      format.json{ render :json => @devices.collect(&:to_sproutcore_hash) }
+    end
   end
 
   def show

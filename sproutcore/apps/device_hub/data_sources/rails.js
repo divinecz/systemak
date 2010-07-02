@@ -12,7 +12,10 @@
 */
 sc_require('models/device');
 DeviceHub.DEVICES_QUERY = SC.Query.local(DeviceHub.Device, {
-  orderBy: 'name'
+  //orderBy: 'name'
+});
+DeviceHub.PACKETS_QUERY = SC.Query.local(DeviceHub.Packet, {
+  //orderBy: 'name'
 });
 
 DeviceHub.RailsDataSource = SC.DataSource.extend(
@@ -29,6 +32,11 @@ DeviceHub.RailsDataSource = SC.DataSource.extend(
         SC.Request.getUrl('/devices.json').json().notify(this, 'didFetchDevices', store, query).send();
         return YES;
       }
+    case DeviceHub.PACKETS_QUERY:
+      {
+        SC.Request.getUrl('/packets.json').json().notify(this, 'didFetchPackets', store, query).send();
+        return YES;
+      }
     }
     return NO;
   },
@@ -37,7 +45,13 @@ DeviceHub.RailsDataSource = SC.DataSource.extend(
     if (SC.ok(response)) {
       store.loadRecords(DeviceHub.Device, response.get('body'));
       store.dataSourceDidFetchQuery(query);
+    } else store.dataSourceDidErrorQuery(query, response);
+  },
 
+  didFetchPackets: function(response, store, query) {
+    if (SC.ok(response)) {
+      store.loadRecords(DeviceHub.Packet, response.get('body'));
+      store.dataSourceDidFetchQuery(query);
     } else store.dataSourceDidErrorQuery(query, response);
   },
 

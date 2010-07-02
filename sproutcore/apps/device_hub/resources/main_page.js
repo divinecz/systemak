@@ -152,24 +152,24 @@ DeviceHub.mainPage = SC.Page.design({
     backgroundColor: "white",
     columns: [
     SC.TableColumn.create({
-      key: 'name',
-      label: 'Čas',
+      key: "time",
+      label: "Čas",
       width: 100
     }), SC.TableColumn.create({
-      key: 'name',
-      label: 'Adresa',
+      key: "address",
+      label: "Adresa",
       width: 100
     }), SC.TableColumn.create({
-      key: 'ipAddress',
-      label: 'Data',
+      key: "data",
+      label: "Data",
       width: 200
     })],
 
-    contentBinding: 'DeviceHub.devicesController.arrangedObjects',
-    selectionBinding: 'DeviceHub.devicesController.selection',
+    contentBinding: "DeviceHub.packetsController.arrangedObjects",
+    selectionBinding: "DeviceHub.packetsController.selection",
     selectOnMouseDown: YES,
     exampleView: SC.TableRowView,
-    recordType: DeviceHub.Device
+    recordType: DeviceHub.Packet
   })
 
 });

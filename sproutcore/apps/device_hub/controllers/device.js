@@ -4,17 +4,22 @@
 // ==========================================================================
 /*globals DeviceHub */
 
-/** @class
-
-  (Document Your Controller Here)
-
-  @extends SC.Object
+/** @class
+
+
+
+  (Document Your Controller Here)
+
+
+
+  @extends SC.Object
+
 */
 DeviceHub.deviceController = SC.ObjectController.create(
 SC.CollectionViewDelegate,
 /** @scope DeviceHub.deviceController.prototype */
 {
 
-  contentBinding: "DeviceHub.devicesController.selection"
+  contentBinding: "DeviceHub.devicesController.selection",
 
 });

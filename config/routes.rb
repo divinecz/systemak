@@ -5,6 +5,8 @@ Systemak::Application.routes.draw do |map|
     resources :error_messages, :only => [:index, :show, :destroy]
   end
   
+  resources :packets, :only => [:index, :show, :destroy]
+  
   root :to => "devices#index"
 
   # The priority is based upon order of creation:

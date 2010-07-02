@@ -68,6 +68,17 @@ class Device < ActiveRecord::Base
     end
     save!
   end
+  
+  def to_sproutcore_hash
+    {
+      :id => self.id,
+      :packets => self.packet_ids,
+      :name => self.name,
+      :ip_address => self.ip_address,
+      :current_state => self.current_state,
+      :current_state_name => self.current_state_name
+    }
+  end
 
   protected
 
