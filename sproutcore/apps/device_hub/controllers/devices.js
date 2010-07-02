@@ -30,6 +30,10 @@ SC.CollectionViewDelegate,
     this.get("packets").refresh();
   },
 
+  addDevice: function() {
+    DeviceHub.devicePage.getPath("mainPane").append();
+  },
+
   deleteDevice: function() {
     SC.AlertPane.warn("Opravdu si přejete odstranit zařízení?", "Odstraněním zařízení budou nenávratně ztracena i všechna jeho data.", "", "Odstranit", "Zrušit", DeviceHub.devicesController);
   },

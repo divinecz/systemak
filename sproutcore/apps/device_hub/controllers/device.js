@@ -4,16 +4,16 @@
 // ==========================================================================
 /*globals DeviceHub */
 
-/** @class
-
-
-
-  (Document Your Controller Here)
-
-
-
-  @extends SC.Object
-
+/** @class
+
+
+
+  (Document Your Controller Here)
+
+
+
+  @extends SC.Object
+
 */
 DeviceHub.deviceController = SC.ObjectController.create(
 SC.CollectionViewDelegate,
@@ -21,5 +21,9 @@ SC.CollectionViewDelegate,
 {
 
   contentBinding: "DeviceHub.devicesController.selection",
+
+  cancel: function() {
+    DeviceHub.devicePage.getPath("mainPane").remove();
+  }
 
 });

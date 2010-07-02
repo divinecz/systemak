@@ -54,7 +54,9 @@ DeviceHub.mainPage = SC.Page.design({
           width: 100
         },
         icon: sc_static("icons/plus-circle.png"),
-        title: "Přidat"
+        title: "Přidat",
+        target: "DeviceHub.devicesController",
+        action: "addDevice"
       }),
       removeButton: SC.ButtonView.design({
         layout: {
