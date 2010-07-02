@@ -64,7 +64,9 @@ DeviceHub.mainPage = SC.Page.design({
           width: 100
         },
         icon: sc_static("icons/minus-circle.png"),
-        title: "Odstranit"
+        title: "Odstranit",
+        target: "DeviceHub.devicesController",
+        action: "deleteDevice"
       })
     }),
 
@@ -86,7 +88,8 @@ DeviceHub.mainPage = SC.Page.design({
           contentValueKey: "name",
           hasContentIcon: YES,
           contentIconKey: "icon",
-          rowHeight: 25
+          rowHeight: 25,
+          destroyOnRemoval: YES
         })
       }),
 

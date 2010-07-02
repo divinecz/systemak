@@ -45,6 +45,8 @@ class DevicesController < ApplicationController
     @device = Device.find(params[:id])
     @device.destroy
     flash[:notice] = "Zařízení bylo odstraněno."
-    redirect_to devices_url
+    respond_with(@device) do |format|
+      format.html{ redirect_to devices_url }
+    end
   end
 end

@@ -59,7 +59,7 @@ DeviceHub.RailsDataSource = SC.DataSource.extend(
   // RECORD SUPPORT
   // 
   retrieveRecord: function(store, storeKey) {
-
+    alert("retrieveRecord");
     // TODO: Add handlers to retrieve an individual record's contents
     // call store.dataSourceDidComplete(storeKey) when done.
     return NO; // return YES if you handled the storeKey
@@ -80,10 +80,19 @@ DeviceHub.RailsDataSource = SC.DataSource.extend(
   },
 
   destroyRecord: function(store, storeKey) {
+    var id = store.idFor(storeKey);
+    if (SC.kindOf(store.recordTypeFor(storeKey), DeviceHub.Device)) {
+      var url = "/devices/" + id + ".json";
+      SC.Request.deleteUrl(url).json().notify(this, this.didDestroyRecord, store, storeKey).send();
+      return YES;
+    }
+    return NO;
+  },
 
-    // TODO: Add handlers to destroy records on the data source.
-    // call store.dataSourceDidDestroy(storeKey) when done
-    return NO; // return YES if you handled the storeKey
+  didDestroyRecord: function(response, store, storeKey) {
+    if (SC.ok(response)) {
+      store.dataSourceDidDestroy(storeKey);
+    } else store.dataSourceDidError(response);
   }
 
 });
