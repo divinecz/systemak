@@ -15,8 +15,10 @@ DeviceHub.devicesController = SC.ArrayController.create(
 {
 
   selectionDidChange: function() {
-	  // var packets = DeviceHub.store.find(DeviceHub.DEVICES_QUERY);
-	  // DeviceHub.devicesController.set("content", devices);
-	}.observes('selection')
+	}.observes('selection'),
+	
+	refreshDevices: function() {
+	  alert("refresh!");
+	}
 
 });

@@ -20,27 +20,51 @@ DeviceHub.mainPage = SC.Page.design({
         right: 0,
         height: 36
       },
-      childViews: "labelView addButton".w(),
+      childViews: "labelView refreshButton addButton removeButton".w(),
       anchorLocation: SC.ANCHOR_TOP,
       labelView: SC.LabelView.design({
         layout: {
           centerY: 0,
           height: 24,
-          left: 8,
-          width: 200
+          right: 10,
+          width: 150
         },
+        textAlign: "right",
         controlSize: SC.LARGE_CONTROL_SIZE,
         fontWeight: SC.BOLD_WEIGHT,
         value: "Device Hub"
+      }),
+      refreshButton: SC.ButtonView.design({
+        layout: {
+          centerY: 0,
+          height: 24,
+          left: 10,
+          width: 100
+        },
+        icon: sc_static("icons/arrow-circle-double.png"),
+        title: "Obnovit",
+        target: "DeviceHub.devicesController",
+        action: "refreshDevices"
       }),
       addButton: SC.ButtonView.design({
         layout: {
           centerY: 0,
           height: 24,
-          right: 12,
-          width: 150
+          left: 115,
+          width: 100
         },
-        title: "Přidat zařízení"
+        icon: sc_static("icons/plus-circle.png"),
+        title: "Přidat"
+      }),
+      removeButton: SC.ButtonView.design({
+        layout: {
+          centerY: 0,
+          height: 24,
+          left: 220,
+          width: 100
+        },
+        icon: sc_static("icons/minus-circle.png"),
+        title: "Odstranit"
       })
     }),
 
