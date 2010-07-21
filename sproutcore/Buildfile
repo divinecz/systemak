@@ -4,6 +4,6 @@
 # ===========================================================================
 
 # Add initial buildfile information here
-config :all, :required => [:sproutcore, 'sproutcore/table']
+config :all, :required => ['sproutcore', 'sproutcore/table']
 proxy '/devices', :to => 'localhost:3000'
 proxy '/packets', :to => 'localhost:3000'

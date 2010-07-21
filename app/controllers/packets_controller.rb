@@ -8,7 +8,7 @@ class PacketsController < ApplicationController
       @device = Device.find(params[:device_id])
       @packets = @device.packets
     else
-      @packets = Packet.all(:conditions => ["DATE(created_at) = ?", Date.today])
+      @packets = Packet.all#(:conditions => ["DATE(created_at) = ?", Date.today])
     end
     respond_with(@packets) do |format|
       format.json{ render :json => @packets.collect(&:to_sproutcore_hash) }
