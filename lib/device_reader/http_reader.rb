@@ -9,11 +9,11 @@ module DeviceReader
     end
 
     def raw_read(log_address)
-      open("http://#{@ip_address}/logy.txt?A35=#{log_address.to_address}")
+      open("http://#{@ip_address}/logy.txt?A35=#{log_address.to_address}").read
     end
 
     def raw_status
-      open("http://#{@ip_address}/sw1.txt")
+      open("http://#{@ip_address}/sw1.txt").read
     end
 
   end
