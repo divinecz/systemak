@@ -8,7 +8,7 @@ Daemon
 
 Spuštění daemonu se provede příkazem ve tvaru:
 
-	./bin/scheduler_daemon.rb <start|stop|restart|run>
+	RAILS_ENV=production ./bin/scheduler_daemon.rb <start|stop|restart|run>
 
 Obdobě se používají i ostatní příkazy daemonu.
 Příkazem `run` zůstane běžet daemon na popředí a loguje přímo do terminálu.
