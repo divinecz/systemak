@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Device < ActiveRecord::Base
+  
+  READ_DELAY = 1000 # ms
 
   has_many :packets, :dependent => :destroy
   has_many :error_messages, :dependent => :destroy do
@@ -61,6 +63,7 @@ class Device < ActiveRecord::Base
           log_address = self.current_log_address
           packet = read_packet
           self.packets.create!(:address => log_address, :raw_data => packet) if packet
+          sleep(READ_DELAY / 1000.0)
         end
         self.last_communication_at = communication_start
         self.last_communication_took = (Time.now - communication_start) * 1000

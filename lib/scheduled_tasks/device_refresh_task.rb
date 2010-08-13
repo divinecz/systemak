@@ -1,7 +1,7 @@
 class DeviceRefreshTask < Scheduler::SchedulerTask
   environments :all
 
-  every '15s'
+  every '15s', :blocking => true
 
   def run
     puts "Refreshing devices..."
