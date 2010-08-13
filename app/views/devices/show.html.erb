@@ -18,12 +18,17 @@
 </p>
 <p>
 	<strong>Poslední komunikace:</strong>
-	<%= @device.last_communication_at.present? ? l(@device.last_communication_at) : nil %>
+	<%= @device.last_communication_at.present? ? l(@device.last_communication_at, :format => :long) : nil %>
 </p>
 <p>
 	<strong>Poslední komunikace trvala:</strong>
 	<%= @device.last_communication_took %>ms
 </p>
+<p>
+	<strong>Načtený rozsah paměti:</strong>
+	<%= @device.start_log_address %> - <%= @device.end_log_address %>
+</p>
+
 
 <p class="action-buttons right">
 	<%= link_to "Upravit", edit_device_path(@device), :class => 'button-link' %>

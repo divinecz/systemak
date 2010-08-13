@@ -2,7 +2,7 @@
 class PacketsController < ApplicationController
   def index
     @device = Device.find(params[:device_id])
-    @packets = @device.packets
+    @packets = @device.packets.paginate(:page => params[:page])
   end
   
   def show

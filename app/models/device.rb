@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Device < ActiveRecord::Base
+  attr_accessor :is_current_state_online
 
   has_many :packets, :dependent => :destroy
   has_many :error_messages, :dependent => :destroy do
@@ -30,6 +31,7 @@ class Device < ActiveRecord::Base
   aasm_event :online do
     transitions :to => :online, :from => [:not_available, :not_responding, :offline]
   end
+  after_save :resolve_current_state
 
   LOG_DEFINITIONS_PATH = Rails.root.join("config", "log_definitions", "uni_log_definitions.yml")
   UNI_LOG_PACKET_SIZE = 8
@@ -167,7 +169,12 @@ class Device < ActiveRecord::Base
   end
 
   def state_changed
-    Mailer.device_state_changed(self).deliver
+#    Mailer.device_state_changed(self).deliver
+  end
+
+  def resolve_current_state
+    online! if offline? && self.is_current_state_online == "1"
+    offline! if online? && self.is_current_state_online == "0"
   end
 
 end

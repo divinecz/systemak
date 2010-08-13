@@ -4,6 +4,7 @@
   <table class="list-table" cellspacing="0">
     <tr>
       <th>Zařízení</th>
+      <th>Čas</th>
       <th>Chyba</th>
       <th>&nbsp;</th>
     </tr>
@@ -11,6 +12,7 @@
     <% @error_messages.each do |error_message| %>
       <tr>
         <td><%= error_message.device %></td>
+        <td class="nowrap"><%= l error_message.updated_at, :format => :long %></td>
         <td><%= error_message.title %></td>
         <td class="action-links">
           <%= link_to "Zobrazit", [@device, error_message], :class => 'icon-link show-link' %>
@@ -19,6 +21,7 @@
       </tr>
     <% end %>
   </table>
+  <%= will_paginate %>
 <% else %>
   <p>Nejsou zaznamenána žádná chybová hlášení.</p>
 <% end %>

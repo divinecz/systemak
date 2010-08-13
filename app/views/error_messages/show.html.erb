@@ -5,6 +5,10 @@
 	<%= @error_message.device %>
 </p>
 <p>
+	<strong>Čas:</strong>
+	<%= l @error_message.updated_at, :format => :long %>
+</p>
+<p>
 	<strong>Chyba:</strong>
 	<%= @error_message.title %>
 </p>

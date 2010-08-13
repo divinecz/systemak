@@ -15,6 +15,7 @@ group :development do
   gem 'nifty-generators'
   gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.3'
 end
+gem "will_paginate", :git => "git://github.com/mislav/will_paginate.git", :branch => "rails3"
 
 # Use unicorn as the web server
 # gem 'unicorn'
