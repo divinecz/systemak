@@ -8,6 +8,8 @@ class Device < ActiveRecord::Base
       create!(:title => title, :description => description)
     end
   end
+  
+  scope :not_offline, where("current_state <> 'offline'")
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 30 }
   validates :ip_address, :presence => true, :uniqueness => true, :format => /^(\d{1,3}\.){3}\d{1,3}$/
@@ -20,7 +22,7 @@ class Device < ActiveRecord::Base
   aasm_state :not_responding, :after_enter => :state_changed
   aasm_state :online, :after_enter => :state_changed
   aasm_event :offline do
-    transitions :to => :offline, :from => [:online, :not_available]
+    transitions :to => :offline, :from => [:online, :not_available, :not_responding]
   end
   aasm_event :not_available do
     transitions :to => :not_available, :from => [:online, :not_responding]
@@ -31,7 +33,6 @@ class Device < ActiveRecord::Base
   aasm_event :online do
     transitions :to => :online, :from => [:not_available, :not_responding, :offline]
   end
-  after_save :resolve_current_state
 
   LOG_DEFINITIONS_PATH = Rails.root.join("config", "log_definitions", "uni_log_definitions.yml")
   UNI_LOG_PACKET_SIZE = 8
@@ -169,12 +170,7 @@ class Device < ActiveRecord::Base
   end
 
   def state_changed
-#    Mailer.device_state_changed(self).deliver
-  end
-
-  def resolve_current_state
-    online! if offline? && self.is_current_state_online == "1"
-    offline! if online? && self.is_current_state_online == "0"
+    Mailer.device_state_changed(self).deliver
   end
 
 end

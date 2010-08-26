@@ -35,7 +35,7 @@ module DeviceReader
     private
 
     def delay_or_raise
-      if rand(10) < 9
+      if rand(10) < 2
         sleep rand(500).to_f / 1000
       else
         raise StandardError, "Test error"

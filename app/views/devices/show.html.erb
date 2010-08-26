@@ -31,6 +31,11 @@
 
 
 <p class="action-buttons right">
+	<% if @device.offline? %>
+		<%= link_to "Aktivovat", device_path(@device, :device => { :current_state => "online" }), :method => :put, :class => 'button-link' %>
+	<% else %>
+	    <%= link_to "Deaktivovat", device_path(@device, :device => { :current_state => "offline" }), :method => :put, :class => 'button-link' %>
+	<% end %>
 	<%= link_to "Upravit", edit_device_path(@device), :class => 'button-link' %>
 	<%= link_to "Odstranit", @device, :confirm => 'Are you sure?', :method => :delete, :class => 'button-link' %>
 	<%= link_to "Zobrazit všechna zařízení", devices_path, :class => 'button-link' %>

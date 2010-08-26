@@ -10,7 +10,7 @@ class DeviceRefreshTask < Scheduler::SchedulerTask
   end
 
   def refresh_devices
-    Device.all.each do |device|
+    Device.not_offline.lock.each do |device|
       device.refresh!
     end
   end

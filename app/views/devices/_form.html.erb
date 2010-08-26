@@ -8,9 +8,6 @@
     <%= f.label :ip_address %><br />
     <%= f.text_field :ip_address %>
   </p>
-  <p>
-    <%= f.check_box :is_current_state_online, :checked => @device.online? %> <%= f.label :is_current_state_online, "Zařízení online" %>
-  </p>
   <p class="form-submit">
     <%= f.submit %> nebo <%= link_to "Zpět", :back %>
   </p>
