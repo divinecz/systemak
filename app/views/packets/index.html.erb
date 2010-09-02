@@ -1,5 +1,9 @@
 <% title "Vyčtená data ze zařízení #{@device}" %>
 
+<p class="action-buttons right">
+  <%= link_to "Zpět na zařízení", @device, :class => 'button-link' %>
+</p>
+
 <% if @packets.any? %>
   <table class="list-table" cellspacing="0">
     <tr>
@@ -24,8 +28,3 @@
 <% else %>
   <p>Ze zařízení nebyla vyčtena žádná data.</p>
 <% end %>
-
-
-<p class="action-buttons right">
-  <%= link_to "Zpět na zařízení", @device, :class => 'button-link' %>
-</p>

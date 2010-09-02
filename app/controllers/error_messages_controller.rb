@@ -2,7 +2,7 @@
 class ErrorMessagesController < ApplicationController
   def index
     @device = Device.find(params[:device_id])
-    @error_messages = @device.error_messages.paginate(:page => params[:page])
+    @error_messages = @device.error_messages.paginate(:page => params[:page], :order => "id DESC")
   end
 
   def show

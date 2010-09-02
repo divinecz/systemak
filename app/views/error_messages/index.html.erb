@@ -1,5 +1,9 @@
 <% title "Chybová hlášení zařízení #{@device}" %>
 
+<p class="action-buttons right">
+  <%= link_to "Zpět na zařízení", @device, :class => 'button-link' %>
+</p>
+
 <% if @error_messages.any? %>
   <table class="list-table" cellspacing="0">
     <tr>
@@ -25,7 +29,3 @@
 <% else %>
   <p>Nejsou zaznamenána žádná chybová hlášení.</p>
 <% end %>
-
-<p class="action-buttons right">
-  <%= link_to "Zpět na zařízení", @device, :class => 'button-link' %>
-</p>
