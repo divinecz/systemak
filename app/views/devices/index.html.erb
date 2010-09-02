@@ -20,7 +20,7 @@
         <td class="nowrap"><%= device.name %></td>
         <td><%= device.ip_address %></td>
         <td><%= device.current_state_name %></td>
-        <td class="nowrap"><%= device.last_communication_at.present? ? l(device.last_communication_at, :format => :long) : nil %></td>
+        <td class="nowrap"><%= device.last_communication_at.present? ? l(device.last_communication_at, :format => :short) : nil %></td>
         <td><%= device.current_log_address.try(:to_address) %></td>
         <td class="action-links">
           <%= link_to "Zobrazit", device, :class => 'icon-link show-link' %>
