@@ -68,16 +68,16 @@ end
 namespace :daemon do
   desc "Start scheduler daemon."
   task :start do
-    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb start"
+    run "RAILS_ENV=production #{current_path}/bin/scheduler_daemon.rb start"
   end
   
   desc "Stop scheduler daemon."
   task :stop do
-    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb stop"
+    run "RAILS_ENV=production #{current_path}/bin/scheduler_daemon.rb stop"
   end
 
   desc "Restart scheduler daemon."
   task :restart do
-    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb restart"
+    run "RAILS_ENV=production #{current_path}/bin/scheduler_daemon.rb restart"
   end
 end
