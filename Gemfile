@@ -1,22 +1,22 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0.beta4'
+gem 'rails', '3.0.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'aasm', :git => 'http://github.com/rubyist/aasm.git' # gem version not compatible with Rails 3 (temporary fix)
+gem 'aasm', '~> 2.2.0'
 gem 'ruby-mysql'
-gem 'log_parser', '0.2.3', :group => :production
+gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.3'
 gem 'eventmachine'
-gem 'exception_notification', :git => 'http://github.com/lawrencepit/exception_notification.git', :require => 'exception_notifier' # rails version is broken for now
+gem 'daemons'
+gem 'exception_notification', '1.0.0', :git => 'git://github.com/rails/exception_notification.git', :require => 'exception_notifier'
 gem 'rufus-scheduler'
+gem 'will_paginate', '~> 3.0.pre2'
+gem 'newrelic_rpm'
 group :development do
   gem 'nifty-generators'
-  gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.3'
 end
-gem "will_paginate", :git => "git://github.com/mislav/will_paginate.git", :branch => "rails3"
-gem 'newrelic_rpm'
 
 # Use unicorn as the web server
 # gem 'unicorn'

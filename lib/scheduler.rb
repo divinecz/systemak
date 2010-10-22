@@ -20,24 +20,24 @@ module Scheduler
     end
 
     def run_scheduler
-      puts "Starting Scheduler in #{RAILS_ENV}"
+      puts "Starting Scheduler in #{Rails.env}"
 
       EventMachine::run {
         @rufus_scheduler = Rufus::Scheduler::EmScheduler.start_new
 
         def @rufus_scheduler.handle_exception(job, exception)
-          msg = "[#{RAILS_ENV}] scheduler job #{job.job_id} (#{job.tags * ' '}) caught exception #{exception.inspect}"
+          msg = "[#{Rails.env}] scheduler job #{job.job_id} (#{job.tags * ' '}) caught exception #{exception.inspect}"
           puts msg
           puts exception.backtrace.join("\n")
-          Scheduler::ExceptionHandler.handle_exception(exception, job, message)
+          Scheduler::ExceptionHandler.handle_exception(exception, job, msg)
         end
 
-        # This is where the magic happens.  tasks in scheduled_tasks/*.rb are loaded up.
+        # This is where the magic happens. Tasks in scheduled_tasks/*.rb are loaded up.
         tasks.each do |task|
           if task.should_run_in_current_environment?
             task.add_to(@rufus_scheduler)
           else
-            puts "#{task} configured not to run in #{RAILS_ENV} environment; skipping."
+            puts "#{task} configured not to run in #{Rails.env} environment; skipping."
           end
         end
       }

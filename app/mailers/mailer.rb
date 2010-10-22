@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Mailer < ActionMailer::Base
-  default :from => "martin@hladil.name", :to => "martin@hladil.name"
+  default :from => DEFAULT_MAILER_RECIPIENT, :to => DEFAULT_MAILER_RECIPIENT
   
   def device_state_changed(device)
     @device = device

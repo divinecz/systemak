@@ -8,7 +8,7 @@ class Device < ActiveRecord::Base
       create!(:title => title, :description => description)
     end
   end
-  
+
   scope :not_offline, where("current_state <> 'offline'")
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 30 }
@@ -89,10 +89,11 @@ class Device < ActiveRecord::Base
   end
 
   def initialize_new!
-    status = read_status
-    self.start_log_address = status[:start_log_address]
-    self.end_log_address = status[:end_log_address]
-    self.current_log_address = status[:start_log_address]
+    if status = read_status
+      self.start_log_address = status[:start_log_address]
+      self.end_log_address = status[:end_log_address]
+      self.current_log_address = status[:start_log_address]
+    end
     if initialized?
       save!
     else
