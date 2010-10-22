@@ -26,15 +26,16 @@ end
 
 namespace :deploy do
   %w(start restart).each { |name| task name, :roles => :app do passenger.restart end }
-  end
+end
 
-  before "deploy:setup", :db
-  after "deploy:update_code", "db:symlink"
+before "deploy:setup", :db
+after "deploy:update_code", "db:symlink"
+after "deploy:update_code", "daemon:restart"
 
-  namespace :db do
-    desc "Create database.yaml in shared path"
-    task :default do
-      db_config = ERB.new <<-EOF
+namespace :db do
+  desc "Create database.yaml in shared path"
+  task :default do
+    db_config = ERB.new <<-EOF
 base: &base
   adapter: mysql
   username: #{db_user}
@@ -53,13 +54,29 @@ production:
   database: #{application}_production
   <<: *base
 EOF
+    run "mkdir -p #{shared_path}/config"
+    put db_config.result, "#{shared_path}/config/database.yml"
+  end
 
-      run "mkdir -p #{shared_path}/config"
-      put db_config.result, "#{shared_path}/config/database.yml"
-    end
-
-    desc "Make symlink for database.yaml"
+  desc "Make symlink for database.yaml"
     task :symlink do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+
+namespace :daemon do
+  desc "Start scheduler daemon"
+  task :start do
+    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb start"
+  end
+  
+  desc "Stop scheduler daemon"
+  task :stop do
+    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb stop"
+  end
+
+  desc "Restart scheduler daemon"
+  task :stop do
+    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb restart"
   end
 end
