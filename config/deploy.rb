@@ -18,7 +18,7 @@ role :web, "fs1.sport-butovice.cz"
 role :db, "fs1.sport-butovice.cz", :primary => true
 
 namespace :passenger do
-  desc "Restart the application altering tmp/restart.txt for Passenger"
+  desc "Restart the application altering tmp/restart.txt for Passenger."
   task :restart, :roles => :app do
     run "touch  #{current_path}/tmp/restart.txt"
   end
@@ -33,7 +33,7 @@ after "deploy:update_code", "db:symlink"
 after "deploy:update_code", "daemon:restart"
 
 namespace :db do
-  desc "Create database.yaml in shared path"
+  desc "Create database.yaml in shared path."
   task :default do
     db_config = ERB.new <<-EOF
 base: &base
@@ -65,17 +65,17 @@ EOF
 end
 
 namespace :daemon do
-  desc "Start scheduler daemon"
+  desc "Start scheduler daemon."
   task :start do
     run "ln -nfs #{release_path}/bin/scheduler_daemon.rb start"
   end
   
-  desc "Stop scheduler daemon"
+  desc "Stop scheduler daemon."
   task :stop do
     run "ln -nfs #{release_path}/bin/scheduler_daemon.rb stop"
   end
 
-  desc "Restart scheduler daemon"
+  desc "Restart scheduler daemon."
   task :restart do
     run "ln -nfs #{release_path}/bin/scheduler_daemon.rb restart"
   end
