@@ -42,7 +42,7 @@ module Systemak
     EXCEPTION_NOTIFIER_OPTIONS = {
       :email_prefix => "[SYSTEMAK ERROR] ",
       :sender_address => %{"Exception" <no-reply@divine.cz>},
-      :exception_recipients => %w{martin@hladil.name}
+      :exception_recipients => %w{exception@divine.cz}
     }
   end
 end
