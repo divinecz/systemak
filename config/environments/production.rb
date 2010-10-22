@@ -60,5 +60,5 @@ Systemak::Application.configure do
 
   config.middleware.use ExceptionNotifier, Systemak::Application::EXCEPTION_NOTIFIER_OPTIONS
 
-  DEFAULT_MAILER_RECIPIENT = "martin@hladil.name"
+  DEFAULT_MAILER_RECIPIENT = "Vtipilj@ubh.cz"
 end

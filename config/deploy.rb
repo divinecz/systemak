@@ -41,6 +41,7 @@ base: &base
   username: #{db_user}
   password: #{db_password}
   encoding: utf8
+  socket: /var/run/mysqld/mysqld.sock
 
 development:
   database: #{application}_production
@@ -67,16 +68,16 @@ end
 namespace :daemon do
   desc "Start scheduler daemon."
   task :start do
-    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb start"
+    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb start"
   end
   
   desc "Stop scheduler daemon."
   task :stop do
-    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb stop"
+    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb stop"
   end
 
   desc "Restart scheduler daemon."
   task :restart do
-    run "ln -nfs #{release_path}/bin/scheduler_daemon.rb restart"
+    run "RAILS_ENV=production #{release_path}/bin/scheduler_daemon.rb restart"
   end
 end

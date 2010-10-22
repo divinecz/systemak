@@ -4,7 +4,7 @@ require 'daemons'
 require 'fileutils'
 
 boot_scheduler = File.join(File.dirname(__FILE__), 'boot.rb')
-pid_dir = File.expand_path(File.join(File.dirname(__FILE__), %w(.. .. log)))
+pid_dir = File.expand_path(File.join(File.dirname(__FILE__), %w(.. log)))
 
 FileUtils.mkdir_p(pid_dir) unless File.exist?(pid_dir)
 
