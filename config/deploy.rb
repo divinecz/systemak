@@ -10,6 +10,8 @@ set :deploy_to, "/home/rails/#{application}/"
 set :repository,  "git@github.com:divinecz/systemak.git"
 set :scm, :git
 set :use_sudo, false
+set :port, 8000
+set :bundle_cmd, "/opt/ruby/bin/bundle"
 
 role :app, "fs1.sport-butovice.cz"
 role :web, "fs1.sport-butovice.cz"
