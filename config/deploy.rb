@@ -76,7 +76,7 @@ namespace :daemon do
   end
 
   desc "Restart scheduler daemon"
-  task :stop do
+  task :restart do
     run "ln -nfs #{release_path}/bin/scheduler_daemon.rb restart"
   end
 end
