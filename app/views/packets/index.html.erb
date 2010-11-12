@@ -7,16 +7,16 @@
 <% if @packets.any? %>
   <table class="list-table" cellspacing="0">
     <tr>
-      <th>Zařízení</th>
-      <th>Adresa</th>
-      <th>&nbsp;</th>
+      <th class="right">ID sekvence</th>
+      <th class="right">Adresa</th>
+      <th>Data</th>
       <th>&nbsp;</th>
     </tr>
     <% @packets.each do |packet| %>
       <tr>
-        <td><%= packet.device %></td>
-        <td><%= packet.address.to_address %></td>
-        <td><%= packet.raw_data.unpack("H*").first %></td>
+        <td class="right"><%= packet.sequence_id %></td>
+        <td class="right"><%= packet.address.to_address %></td>
+        <td><%= packet.data %></td>
         <td class="action-links">
           <%= link_to "Zobrazit", [@device, packet], :class => 'icon-link show-link' %>
           <%= link_to "Odstranit", [@device, packet], :confirm => 'Jste si jist?', :method => :delete, :class => 'icon-link destroy-link' %>

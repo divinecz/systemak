@@ -72,6 +72,15 @@ class Device < ActiveRecord::Base
     save!
   end
 
+  def to_param
+    self.ip_address.gsub(".", "-")
+  end
+
+  def self.find_by_param!(param)
+    param = param.gsub("-", ".") if param
+    self.find_by_ip_address!(param)
+  end
+
   protected
 
   def log_parser

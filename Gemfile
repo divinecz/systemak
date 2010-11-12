@@ -6,7 +6,7 @@ gem 'rails', '3.0.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'aasm', '~> 2.2.0'
-gem 'ruby-mysql'
+gem 'mysql2'
 gem 'log_parser', :git => 'git@github.com:divinecz/log_parser.git', :tag => 'v0.2.3'
 gem 'eventmachine'
 gem 'daemons'

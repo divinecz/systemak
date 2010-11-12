@@ -1,0 +1,9 @@
+cs:
+  attributes:
+    name: Název
+  activerecord:
+    models:
+      device: Zařízení
+    attributes:
+      device:
+        ip_address: IP adresa

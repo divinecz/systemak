@@ -55,6 +55,7 @@ GEM
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
+    mysql2 (0.2.6)
     newrelic_rpm (2.13.2)
     nifty-generators (0.4.0)
     polyglot (0.3.1)
@@ -77,7 +78,6 @@ GEM
       rake (>= 0.8.4)
       thor (~> 0.14.0)
     rake (0.8.7)
-    ruby-mysql (2.9.3)
     rufus-scheduler (2.0.6)
     thor (0.14.3)
     treetop (1.4.8)
@@ -94,9 +94,9 @@ DEPENDENCIES
   eventmachine
   exception_notification (= 1.0.0)!
   log_parser!
+  mysql2
   newrelic_rpm
   nifty-generators
   rails (= 3.0.1)
-  ruby-mysql
   rufus-scheduler
   will_paginate (~> 3.0.pre2)

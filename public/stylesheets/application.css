@@ -4,6 +4,7 @@ html {
 body {
   margin: 0 auto;
   width: 75%;
+  min-width: 1200px;
 }
 body, textarea {
   font-family: Verdana, Helvetica, Arial;

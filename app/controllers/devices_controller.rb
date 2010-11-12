@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
   end
 
   def show
-    @device = Device.find(params[:id])
+    @device = Device.find_by_param!(params[:id])
   end
 
   def new
@@ -23,11 +23,11 @@ class DevicesController < ApplicationController
   end
 
   def edit
-    @device = Device.find(params[:id])
+    @device = Device.find_by_param!(params[:id])
   end
 
   def update
-    @device = Device.find(params[:id])
+    @device = Device.find_by_param!(params[:id])
     case params[:device][:current_state]
     when "online"
       @device.online! unless @device.online?
@@ -45,7 +45,7 @@ class DevicesController < ApplicationController
   end
 
   def destroy
-    @device = Device.find(params[:id])
+    @device = Device.find_by_param!(params[:id])
     @device.destroy
     flash[:notice] = "Zařízení bylo odstraněno."
     redirect_to devices_path
