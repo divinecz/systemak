@@ -1,8 +1,6 @@
 # encoding: utf-8
 class PacketsController < ApplicationController
 
-  DEFAULT_PACKETS_LIMIT = 32
-
   def index
     @device = Device.find_by_param!(params[:device_id])
     @packets = @device.packets
@@ -11,10 +9,11 @@ class PacketsController < ApplicationController
         @packets = @packets.paginate(:page => params[:page], :order => "sequence_id DESC")
       end
       format.json do
-        sequence_id ||= params[:sequence_id].to_i
+        sequence_id = params[:sequence_id].to_i
+        @packets = @packets.from_sequence_id(sequence_id) if sequence_id > 0
         limit = params[:limit].to_i
-        limit = DEFAULT_PACKETS_LIMIT if limit <= 0
-        render :json => @packets.from_sequence_id(sequence_id).order("sequence_id ASC").limit(limit).to_json(:only => [:sequence_id], :methods => [:data])
+        @packets = @packets.limit(limit) if limit > 0
+        render :json => @packets.order("sequence_id ASC").to_json(:only => [:sequence_id], :methods => [:data])
       end
     end
   end
