@@ -30,7 +30,7 @@ end
 
 before "deploy:setup", :db
 after "deploy:update_code", "db:symlink"
-after "deploy:update_code", "daemon:restart"
+after "deploy:restart", "daemon:restart"
 
 namespace :db do
   desc "Create database.yaml in shared path."

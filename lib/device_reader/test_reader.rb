@@ -27,7 +27,7 @@ module DeviceReader
 
     def raw_status
       delay_or_raise
-      self.current_log_address += (8 * (rand(7) + 1)) if rand(10) > 8
+      self.current_log_address += (8 * (rand(7) + 1)) if rand(10) > 6
       self.current_log_address = START_LOG_ADDRESS if self.current_log_address >= END_LOG_ADDRESS
       "SL:#{START_LOG_ADDRESS.to_address} EL:#{END_LOG_ADDRESS.to_address} AL:#{self.current_log_address.to_address}\r\nSLSD:023B40 ELSD:423B40 ALSD:027AA3"
     end
