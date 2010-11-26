@@ -12,14 +12,19 @@ module DeviceReader
       @last_read_at = Time.now - READ_DELAY_SECONDS
     end
 
-    def raw_read(log_address)
+    def read_raw(file, query = {})
       read_delay
-      open("http://#{@ip_address}/logy.txt?A35=#{log_address.to_address}").read
+      file = "/#{file}"
+      uri = URI::HTTP.build(:host => @ip_address, :path => file, :query => query.to_query).to_s
+      open(uri).read
     end
 
-    def raw_status
-      read_delay
-      open("http://#{@ip_address}/sw1.txt").read
+    def read_raw_log(log_address)
+      read_raw("logy.txt", { "A35" => log_address.to_address })
+    end
+
+    def read_raw_status
+      read_raw("sw1.txt")
     end
 
     private

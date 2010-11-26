@@ -9,7 +9,7 @@ class PacketsController < ApplicationController
         @packets = @packets.paginate(:page => params[:page], :order => "sequence_id DESC")
       end
       format.json do
-        sequence_id = params[:sequence_id].to_i
+        sequence_id = params[:from].to_i
         @packets = @packets.from_sequence_id(sequence_id) if sequence_id > 0
         limit = params[:limit].to_i
         @packets = @packets.limit(limit) if limit > 0

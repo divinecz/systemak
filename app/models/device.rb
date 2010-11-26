@@ -81,6 +81,15 @@ class Device < ActiveRecord::Base
     self.find_by_ip_address!(param)
   end
 
+  def read_raw(file, query = {})
+    begin
+      reader.read_raw(file, query)
+    rescue
+      self.error_messages.add("Přímé čtení ze zařízení se nezdařilo", "Požadavek #{file}?#{query.to_query}")
+      return false
+    end
+  end
+
   protected
 
   def log_parser
@@ -112,7 +121,7 @@ class Device < ActiveRecord::Base
 
   def read_status
     begin
-      raw_status = self.reader.raw_status
+      raw_status = self.reader.read_raw_status
     rescue Exception => exception
       process_not_responding(exception)
       return
@@ -130,7 +139,7 @@ class Device < ActiveRecord::Base
   def read_packet_from_buffer(log_address)
     if @read_buffer.nil? || @read_buffer_current_log_address > log_address || log_address - @read_buffer_current_log_address > (256 - UNI_LOG_PACKET_SIZE)
       begin
-        raw_data = self.reader.raw_read(log_address)
+        raw_data = self.reader.read_raw_log(log_address)
       rescue Exception => exception
         process_not_responding(exception)
         return
