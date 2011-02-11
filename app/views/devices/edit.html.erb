@@ -2,6 +2,16 @@
 
 <%= render 'form' %>
 
+<%= form_tag import_log_device_path(@device), :multipart => true do |f| %>
+  <p>
+    <%= label_tag :file, "Soubor logu" %><br />
+    <%= file_field_tag :file %>
+  </p>
+  <p class="form-submit">
+    <%= submit_tag "Importovat" %>
+  </p>
+<% end %>
+
 <p class="action-buttons right">
 	<%= link_to "Zobrazit", @device, :class => 'button-link' %>
 	<%= link_to "Zobrazit všechna zařízení", devices_path, :class => 'button-link' %>

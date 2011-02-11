@@ -4,6 +4,9 @@ Systemak::Application.routes.draw do
     resources :packets, :only => [:index, :show, :destroy]
     resources :error_messages, :only => [:index, :show, :destroy]
     resource :proxy, :only => [:show, :update], :controller => :proxy
+    member do
+      post :import_log
+    end
   end
 
   root :to => "devices#index"

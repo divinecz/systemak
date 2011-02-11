@@ -50,4 +50,17 @@ class DevicesController < ApplicationController
     flash[:notice] = "Zařízení bylo odstraněno."
     redirect_to devices_path
   end
+
+  def import_log
+    @device = Device.find_by_param!(params[:id])
+    if file = params[:file]
+      imported = 0
+      file.read.scan(/(\w{16})/).flatten.each do |data|
+        @device.packets.create(:address => imported * 8, :raw_data => data.lines.to_a.pack("H*"))
+        imported += 1
+      end
+      flash[:notice] = "Bylo importováno #{imported} paketů."
+    end
+    redirect_to devices_path
+  end
 end
